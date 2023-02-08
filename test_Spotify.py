@@ -2,14 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 import time
 import pytest
-import pyautogui
-
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -37,6 +33,8 @@ def test_login_success(context):
     context.find_element(By.ID, "login-button").click()
 
     assert "Spotify" in context.title
+    time.sleep(5)
+
 
 Kunci = [
         ('testing.brins@gmail.com','testtesttest' , 'Incorrect username or password.'),     # username benar password salah 
@@ -55,6 +53,7 @@ def test_login_failed(context, user_name, passwrd,result):
     context.find_element(By.ID, "login-button").click()
 
     assert result in context.find_element(By.XPATH, '//span[@class="Message-sc-15vkh7g-0 jHItEP"]').text
+    time.sleep(3)
 
 #==================================================================================================================================================================
 #   CREATE A PLAYLIST
@@ -99,6 +98,7 @@ def test_search_songs(context):
     search_songs.send_keys('Tulus' + Keys.ENTER)
 
     assert 'Tulus' in context.find_element(By.XPATH, '//div[@class="Type__TypeElement-sc-goli3j-0 gRwoMO nk6UgB4GUYNoAcPtAQaG"]').text
+    time.sleep(5)
 
 #==================================================================================================================================================================
 #   ADD LIKED SONGS
@@ -121,5 +121,6 @@ def test_add_liked_songs(context):
 
     ActionChains(context).move_to_element(context.find_element(By.XPATH, '//*[@id="searchPage"]/div/div/section[2]/div[2]/div/div/div/div[2]/div[1]')).perform()
     ActionChains(context).context_click(context.find_element(By.XPATH, '//*[@id="searchPage"]/div/div/section[2]/div[2]/div/div/div/div[2]/div[1]')).perform()
+    time.sleep(5)
     context.find_element(By.XPATH, '//*[@id="context-menu"]/ul/li[6]/button').click()
     time.sleep(7)
